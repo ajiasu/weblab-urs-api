@@ -1,0 +1,23 @@
+{
+    "name": "weblab-urs-api",
+    "version": "1.0.0",
+    "description": "REST API for testing the webinterface of U.R.S.",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ajiasu/weblab-urs-api.git"
+    },
+    "author": "Andreas Suter",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/ajiasu/weblab-urs-api/issues"
+    },
+    "homepage": "https://github.com/ajiasu/weblab-urs-api#readme",
+    "devDependencies": {
+        "nodemon": "^2.0.20",
+        "prettier": "^2.8.4"
+    }
+}
