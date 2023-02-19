@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }
 app.use(express.json());
-app.use(express.static(`${__dirname}/node_modules`));
+app.use(express.static(__dirname));
 
 app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
@@ -30,19 +30,8 @@ app.get("/", function (req, res, next) {
 app.use("/v1/", ursRouter);
 
 io.on('connection', (socket) => {
+    console.log('Socket Connection established')
     io.emit("chat message", "MACHINE TURNED ON");
-    
-    setInterval(function() {
-        io.emit("chat message", "Coordinates are 3234234,12234234");
-    }, 1000)
-
-    setInterval(function() {
-        io.emit("chat message", "Weight is 3 g");
-    }, 1000)
-
-    socket.on('chat message', (msg) => {
-      io.emit('chat message', msg);
-    });
 });
 
 mongoose
