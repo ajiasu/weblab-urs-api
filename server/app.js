@@ -29,9 +29,14 @@ app.get("/", function (req, res, next) {
 
 app.use("/v1/", ursRouter);
 
-io.on('connection', (socket) => {
-    console.log('Socket Connection established')
-    io.emit("chat message", "MACHINE TURNED ON");
+let position = {
+    x: 200,
+    y: 200
+};
+
+io.on("connection", (socket) => {
+    console.log("Socket Connection established");
+    io.emit("position", position);
 });
 
 mongoose
