@@ -6,9 +6,9 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const morgan = require("morgan");
 
-const ursRouter = require("./routes/ursRoutes");
+const ursRouter = require("./routes/weighingsRoutes");
 
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: './config.env' });
 const DB = process.env.DATABASE;
 const port = process.env.PORT || 3000;
 
@@ -27,7 +27,7 @@ app.get("/", function (req, res, next) {
     res.sendFile(`${__dirname}/index.html`);
 });
 
-app.use("/v1/", ursRouter);
+app.use("/v1/weighings", ursRouter);
 
 let position = {
     x: 200,
