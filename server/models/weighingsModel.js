@@ -1,21 +1,18 @@
 const mongoose = require("mongoose");
 
 const weighingsModel = new mongoose.Schema({
-    petCap: {
-        type: Number,
-        required: [true, "There must be petcaps"]
+    timestamp: {
+        type: Date,
+        required: [true, "There must be a timestamp"]
     },
-    crownCork: {
-        type: Number,
-        required: [true, "There must be crownCorks"]
+    material: {
+        type: String,
+        required: [true, "There must be a material"],
+        enum: ["cigarettes", "crownCorks", "valuables", "petCaps"]
     },
-    cigaret: {
+    count: {
         type: Number,
-        required: [true, "There must be cigarettes"]
-    },
-    valuable: {
-        type: Number,
-        required: [true, "There must be valuables"]
+        required: [true, "There must be a count"]
     }
 });
 
