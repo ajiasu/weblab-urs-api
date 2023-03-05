@@ -1,17 +1,17 @@
 const socketio = require("socket.io-client");
 const socket = socketio("http://localhost:8000");
 
-const Motordata = require("../models/motordataModel");
+const PowerUsage = require("../models/powerUsageModel");
 
-exports.getCurrentMotordata = async (req, res) => {
+exports.getCurrentPowerUsage = async (req, res) => {
     try {
-        const motordata = await Motordata.find()
+        const powerUsage = await PowerUsage.find()
             .sort({ timestamp: -1 })
             .limit(1);
-        res.status(200).json({
+        res.status(201).json({
             status: "success",
             data: {
-                motordata
+                powerUsage
             }
         });
     } catch (err) {
@@ -22,18 +22,18 @@ exports.getCurrentMotordata = async (req, res) => {
     }
 };
 
-exports.addMotordata = async (req, res) => {
+exports.addPowerUsage = async (req, res) => {
     try {
-        const newMotordata = await Motordata.create(req.body);
-        socket.emit("updateMotordata", newMotordata);
-        res.status(200).json({
+        const newPowerUsage = await PowerUsage.create(req.body);
+        socket.emit("updatePowerUsage", newPowerUsage);
+        res.status(201).json({
             status: "success",
             data: {
-                weighing: newMotordata
+                weighing: newPowerUsage
             }
         });
     } catch (err) {
-        res.status(400).json({
+        res.status(412).json({
             status: "fail",
             message: err
         });

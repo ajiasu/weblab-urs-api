@@ -7,11 +7,20 @@ const router = express.Router();
 
 router.route("/").get(weighingsController.getAllWeighings);
 router
-    .route("/petCap")
+    .route("/petCaps")
     .post(weighingsController.addPetCap)
     .get(weighingsController.getCurrentPetCaps);
-router.route("/crownCork").post(weighingsController.addCrownCork);
-router.route("/cigaret").post(weighingsController.addCigaret);
-router.route("/valuable").post(weighingsController.addValuable);
+router
+    .route("/crownCorks")
+    .post(weighingsController.addCrownCork)
+    .get(weighingsController.getCurrentCrownCorks);
+router
+    .route("/cigarettes")
+    .post(weighingsController.addCigaret)
+    .get(weighingsController.getCurrentCigarettes);
+router
+    .route("/valuables")
+    .post(weighingsController.addValuable)
+    .get(weighingsController.getCurrentValuables);
 
 module.exports = router;

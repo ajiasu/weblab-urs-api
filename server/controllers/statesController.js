@@ -1,3 +1,6 @@
+const socketio = require("socket.io-client");
+const socket = socketio("http://localhost:8000");
+
 const State = require("../models/statesModel");
 
 exports.getCurrentState = async (req, res) => {
@@ -20,6 +23,7 @@ exports.getCurrentState = async (req, res) => {
 exports.addState = async (req, res) => {
     try {
         const newState = await State.create(req.body);
+        socket.emit("updateStates", newState);
         res.status(200).json({
             status: "success",
             data: {

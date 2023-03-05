@@ -1,3 +1,6 @@
+const socketio = require("socket.io-client");
+const socket = socketio("http://localhost:8000");
+
 const Weighings = require("../models/weighingsModel");
 
 exports.getAllWeighings = async (req, res) => {
@@ -22,6 +25,7 @@ exports.addPetCap = async (req, res) => {
         const newWeighing = await Weighings.create(
             Object.assign(req.body, { material: "petCaps" })
         );
+        socket.emit("updateWeighings", newWeighing);
         res.status(200).json({
             status: "success",
             data: {
@@ -41,6 +45,7 @@ exports.addCrownCork = async (req, res) => {
         const newWeighing = await Weighings.create(
             Object.assign(req.body, { material: "crownCorks" })
         );
+        socket.emit("updateWeighings", newWeighing);
         res.status(200).json({
             status: "success",
             data: {
@@ -60,6 +65,7 @@ exports.addCigaret = async (req, res) => {
         const newWeighing = await Weighings.create(
             Object.assign(req.body, { material: "cigarettes" })
         );
+        socket.emit("updateWeighings", newWeighing);
         res.status(200).json({
             status: "success",
             data: {
@@ -79,6 +85,7 @@ exports.addValuable = async (req, res) => {
         const newWeighing = await Weighings.create(
             Object.assign(req.body, { material: "valuables" })
         );
+        socket.emit("updateWeighings", newWeighing);
         res.status(200).json({
             status: "success",
             data: {
@@ -152,7 +159,7 @@ exports.getCurrentCigarettes = async (req, res) => {
 
 exports.getCurrentValuables = async (req, res) => {
     try {
-        const valuables = await Weighings.find({ material: "valubales" })
+        const valuables = await Weighings.find({ material: "valuables" })
             .sort({ timestamp: -1 })
             .limit(1);
         res.status(200).json({

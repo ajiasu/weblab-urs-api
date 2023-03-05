@@ -12,7 +12,7 @@
 
 ## 15. Februar
 
-**Zeit**: 2h
+**Zeit**: 4h
 **Beschreibung**: "Vue.js Basics angeeignet, Tutorial durchgespielt."
 
 ## 19. Februar
@@ -26,9 +26,11 @@
 **Beschreibung**: weighings Route hinzugefügt, ursViewer initialisiert
 
 ## 24. Februar
+
 **Zeit**: 4h
 **Beschreibung**:
 
 ## 3. März
-**Zeit**:
-**Beschreibung**:
+
+**Zeit**: 8h
+**Beschreibung**: Simulation erstellt, Socket.io konfiguriert, states, powerUsage und MotorDate Route erstellt

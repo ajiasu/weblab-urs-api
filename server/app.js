@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const cors = require("cors");
 const dotenv = require("dotenv");
 const express = require("express");
 const app = express();
@@ -8,10 +9,10 @@ const socketio = require("socket.io")(server, {
     cors: { origin: "*" }
 });
 const morgan = require("morgan");
-
 const weighingsRouter = require("./routes/weighingsRoutes");
 const motordataRouter = require("./routes/motordataRoutes");
 const statesRouter = require("./routes/statesRoutes");
+const powerUsageRouter = require("./routes/powerUsageRoutes");
 
 dotenv.config({ path: "./config.env" });
 const DB = process.env.DATABASE;
@@ -20,6 +21,12 @@ const port = process.env.PORT || 3000;
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }
+
+app.use(
+    cors({
+        origin: "http://localhost:8080"
+    })
+);
 app.use(express.json());
 app.use(express.static(__dirname));
 
@@ -28,13 +35,10 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/", function (req, res, next) {
-    res.sendFile(`${__dirname}/index.html`);
-});
-
 app.use("/v1/weighings", weighingsRouter);
 app.use("/v1/motordata", motordataRouter);
 app.use("/v1/states", statesRouter);
+app.use("/v1/powerUsage", powerUsageRouter);
 
 let position = {
     x: 200,
@@ -53,18 +57,27 @@ socketio.on("connection", (socket) => {
     // new socket connected
     console.log("New Socket connected");
     // listen for a 'message' event
-    socket.on("message", (eventData) => {
-        // attach the current time
-        eventData.processed = Date.now();
-
-        // send the message back to the client
-        socket.emit("message", eventData);
+    socket.on("updateWeighings", (eventData) => {
+        //console.log("New Data available:", eventData);
+        socket.broadcast.emit("updateWeighings", {
+            material: eventData.material,
+            count: eventData.count
+        });
     });
-
-    socket.on("update", (eventData) => {
-        socket.emit("weighings", getCurrentWeighings());
-        socket.emit("status", getCurrentStatus());
-        socket.emit("position", getCurrentPosition());
+    socket.on("updateStates", (eventData) => {
+        //console.log("New Data available:", eventData);
+        socket.broadcast.emit("updateStates", eventData.state);
+    });
+    socket.on("updatePowerUsage", (eventData) => {
+        //console.log("New Data available:", eventData);
+        socket.broadcast.emit("updatePowerUsage", eventData.powerUsage);
+    });
+    socket.on("updateMotordata", (eventData) => {
+        console.log("New Data available:", eventData);
+        socket.broadcast.emit("updateMotordata", {
+            x: eventData.x,
+            y: eventData.y
+        });
     });
 });
 server.listen(port, () => {
