@@ -29,7 +29,7 @@ exports.addMotordata = async (req, res) => {
         res.status(200).json({
             status: "success",
             data: {
-                weighing: newMotordata
+               motordata: newMotordata
             }
         });
     } catch (err) {

@@ -14,7 +14,7 @@ const motordataRouter = require("./routes/motordataRoutes");
 const statesRouter = require("./routes/statesRoutes");
 const powerUsageRouter = require("./routes/powerUsageRoutes");
 
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: './config.env' });
 const DB = process.env.DATABASE;
 const port = process.env.PORT || 3000;
 
