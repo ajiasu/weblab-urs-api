@@ -7,6 +7,5 @@ npm install
 
 ### Compiles for development
 ```
-cd .\server
-node.js
+node app.js
 ```
