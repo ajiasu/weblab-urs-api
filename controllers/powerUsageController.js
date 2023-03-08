@@ -1,6 +1,3 @@
-const socketio = require("socket.io-client");
-const socket = socketio("http://localhost:8000");
-
 const PowerUsage = require("../models/powerUsageModel");
 
 exports.getCurrentPowerUsage = async (req, res) => {
@@ -25,7 +22,7 @@ exports.getCurrentPowerUsage = async (req, res) => {
 exports.addPowerUsage = async (req, res) => {
     try {
         const newPowerUsage = await PowerUsage.create(req.body);
-        socket.emit("updatePowerUsage", newPowerUsage);
+        res.socketio.emit("updatePowerUsage", newPowerUsage.powerUsage);
         res.status(201).json({
             status: "success",
             data: {

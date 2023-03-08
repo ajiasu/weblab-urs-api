@@ -1,6 +1,3 @@
-const socketio = require("socket.io-client");
-const socket = socketio("http://localhost:8000");
-
 const Motordata = require("../models/motordataModel");
 
 exports.getCurrentMotordata = async (req, res) => {
@@ -25,11 +22,14 @@ exports.getCurrentMotordata = async (req, res) => {
 exports.addMotordata = async (req, res) => {
     try {
         const newMotordata = await Motordata.create(req.body);
-        socket.emit("updateMotordata", newMotordata);
+        res.socketio.emit("updateMotordata", {
+            x: newMotordata.x,
+            y: newMotordata.y
+        });
         res.status(200).json({
             status: "success",
             data: {
-               motordata: newMotordata
+                motordata: newMotordata
             }
         });
     } catch (err) {

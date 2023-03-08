@@ -14,7 +14,7 @@ const motordataRouter = require("./routes/motordataRoutes");
 const statesRouter = require("./routes/statesRoutes");
 const powerUsageRouter = require("./routes/powerUsageRoutes");
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: "./config.env" });
 const DB = process.env.DATABASE;
 const port = process.env.PORT || 3000;
 
@@ -32,6 +32,11 @@ app.use(express.static(__dirname));
 
 app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
+    next();
+});
+
+app.use(function (req, res, next) {
+    res.socketio = socketio;
     next();
 });
 
@@ -56,29 +61,6 @@ mongoose
 socketio.on("connection", (socket) => {
     // new socket connected
     console.log("New Socket connected");
-    // listen for a 'message' event
-    socket.on("updateWeighings", (eventData) => {
-        //console.log("New Data available:", eventData);
-        socket.broadcast.emit("updateWeighings", {
-            material: eventData.material,
-            count: eventData.count
-        });
-    });
-    socket.on("updateStates", (eventData) => {
-        //console.log("New Data available:", eventData);
-        socket.broadcast.emit("updateStates", eventData.state);
-    });
-    socket.on("updatePowerUsage", (eventData) => {
-        //console.log("New Data available:", eventData);
-        socket.broadcast.emit("updatePowerUsage", eventData.powerUsage);
-    });
-    socket.on("updateMotordata", (eventData) => {
-        console.log("New Data available:", eventData);
-        socket.broadcast.emit("updateMotordata", {
-            x: eventData.x,
-            y: eventData.y
-        });
-    });
 });
 server.listen(port, () => {
     console.log("Server started on port", port);
